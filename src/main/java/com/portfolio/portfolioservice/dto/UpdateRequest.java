@@ -6,5 +6,7 @@ import java.math.BigDecimal;
 
 @Data
 public class UpdateRequest {
-    private BigDecimal tradeValue;
+    private String instrumentName;
+    private String tradeType;
+    private BigDecimal units;
 }

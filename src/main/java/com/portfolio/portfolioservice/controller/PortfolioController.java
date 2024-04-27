@@ -9,10 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,8 +26,8 @@ public class PortfolioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@PathVariable String id, UpdateRequest updateRequest){
-        log.info("Request received for update portfolio-id ={}",id);
+    public ResponseEntity<String> update(@PathVariable String id, @RequestBody UpdateRequest updateRequest){
+        log.info("Request received for update portfolio-id ={} , updateRequest={}",id ,updateRequest);
         return new ResponseEntity<>(portfolioService.updatePortfolioValue(id,updateRequest), HttpStatus.OK);
     }
 
