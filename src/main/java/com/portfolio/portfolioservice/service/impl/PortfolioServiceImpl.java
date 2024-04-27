@@ -35,16 +35,19 @@ public class PortfolioServiceImpl implements PortfolioService {
     //For same portfolio there won't be concurrent update
     public String updatePortfolioValue(String id, UpdateRequest updateRequest) {
         PortfolioEntity portfolio = getPortfolio(id);
-        BigDecimal newValue=calCulatePortfolioValue(portfolio.getPortfolioValue(),updateRequest);
+        BigDecimal newValue= culatePortfolioValue(portfolio.getPortfolioValue(),updateRequest);
         portfolio.setPortfolioValue(newValue);
         portfolioRepository.save(portfolio);
         return "Success";
     }
 
-    private BigDecimal calCulatePortfolioValue(BigDecimal currentValue,UpdateRequest updateRequest){
+    private BigDecimal culatePortfolioValue(BigDecimal currentValue, UpdateRequest updateRequest){
         //TODO Get stock unit value from external APIby passing instrument name
         //TODO For now its hard coded to 100
         BigDecimal stockUnitValue=BigDecimal.valueOf(100);
+        if(updateRequest.getUnits()==null){
+            throw new ValidationException("Invalid unit count");
+        }
         BigDecimal newValue= stockUnitValue.multiply(updateRequest.getUnits());
         BigDecimal netValue=updateRequest.getTradeType().equals("SELL")?currentValue.subtract(newValue):currentValue.add(newValue);
         return netValue;

@@ -1,5 +1,6 @@
 package com.portfolio.portfolioservice.service.impl;
 
+import com.portfolio.portfolioservice.dto.UpdateRequest;
 import com.portfolio.portfolioservice.entity.PortfolioEntity;
 import com.portfolio.portfolioservice.exception.ValidationException;
 import com.portfolio.portfolioservice.repo.PortfolioRepository;
@@ -10,6 +11,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,5 +40,15 @@ class PortfolioServiceImplTest {
 
     @Test
     void updatePortfolioValue() {
+        when(portfolioRepository.findById(eq("testId")))
+                .thenReturn(Optional.of(PortfolioEntity.builder().portfolioValue(BigDecimal.TEN).build()));
+        assertDoesNotThrow(()-> portfolioService.updatePortfolioValue("testId", UpdateRequest.builder().instrumentName("Test").tradeType("SELL").units(BigDecimal.TEN).build()));
+
+    }
+
+    @Test
+    void updatePortfolioValue_Exception_When_Invalid_Units_Provided() {
+        assertThrows(ValidationException.class,()-> portfolioService.updatePortfolioValue("testId", UpdateRequest.builder().instrumentName("Test").tradeType("SELL").build()));
+
     }
 }
