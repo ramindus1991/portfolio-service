@@ -3,6 +3,7 @@ package com.portfolio.portfolioservice.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Version;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -18,4 +19,7 @@ public class PortfolioEntity {
     private BigDecimal portfolioValue;//	(BigDecimal)
     private double currentPerformance;//	(double)
     private String investmentStrategy;//	(enum)
+
+    @Version
+    private Integer version;
 }

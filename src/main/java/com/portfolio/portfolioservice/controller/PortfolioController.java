@@ -1,6 +1,7 @@
 package com.portfolio.portfolioservice.controller;
 
 import com.portfolio.portfolioservice.dto.SummeryResponse;
+import com.portfolio.portfolioservice.dto.UpdateRequest;
 import com.portfolio.portfolioservice.service.PortfolioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,6 +25,12 @@ public class PortfolioController {
     public ResponseEntity<SummeryResponse> getDetail(@PathVariable String id){
         log.info("Request received for get getDetail portfolio-id ={}",id);
         return new ResponseEntity<>(portfolioService.getDetail(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> update(@PathVariable String id, UpdateRequest updateRequest){
+        log.info("Request received for update portfolio-id ={}",id);
+        return new ResponseEntity<>(portfolioService.updatePortfolioValue(id,updateRequest), HttpStatus.OK);
     }
 
 
