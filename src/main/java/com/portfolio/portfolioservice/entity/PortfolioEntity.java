@@ -10,6 +10,9 @@ import java.math.BigDecimal;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name="portfolio")
 public class PortfolioEntity {
     @Id
