@@ -2,6 +2,7 @@ package com.portfolio.portfolioservice.aspect;
 
 import com.portfolio.portfolioservice.dto.ApiError;
 import com.portfolio.portfolioservice.exception.ValidationException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -13,10 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiError> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        log.info("Exception MethodArgumentNotValidException {}",ex.getMessage());
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
@@ -31,7 +34,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ApiError> handleValidationExceptions(ValidationException ex) {
         Map<String, String> errors = new HashMap<>();
-
+        log.info("Exception ValidationException {}",ex.getMessage());
 
         ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, ex.getMessage(), errors);
         return new ResponseEntity<ApiError>(apiError, HttpStatus.BAD_REQUEST);
@@ -40,6 +43,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApiError> handleValidationExceptions(RuntimeException ex) {
+        log.info("Exception RuntimeException {}",ex.getMessage());
         Map<String, String> errors = new HashMap<>();
 
 
